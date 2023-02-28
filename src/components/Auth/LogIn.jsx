@@ -1,14 +1,19 @@
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
+import { doLogin } from '../../redux/action/userAction'
 import { postLogin } from '../../services/apiServices'
+import { FaSpinner } from 'react-icons/fa'
 import './LogIn.scss'
 
 const LogIn = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
 
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const validateEmail = (email) => {
     return String(email)
@@ -19,7 +24,7 @@ const LogIn = () => {
   }
 
   const validatePassword = (password) => {
-    return String(password).match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/)
+    return String(password)
   }
 
   const handleOnSubmitLoginBtn = async (event) => {
@@ -35,13 +40,21 @@ const LogIn = () => {
 
     if (!isValidEmail || !isValidPassword) return
 
+    // call API
+    setIsLoading(true)
     const response = await postLogin(email, password)
-    // console.log(response)
 
     if (response && response.EC === 0) {
+      dispatch(doLogin(response))
       toast.success(response.EM)
+      setIsLoading(false)
       navigate('/')
-    } else if (response && response.EC !== 0) toast.error(response.EM)
+    }
+
+    if (response && response.EC !== 0) {
+      toast.error(response.EM)
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -90,7 +103,13 @@ const LogIn = () => {
           <div className="login-forgot">
             <a href="#">Forgot password?</a>
           </div>
-          <button type="submit" className="login-btn" onClick={handleOnSubmitLoginBtn}>
+          <button
+            type="submit"
+            className="login-btn"
+            onClick={handleOnSubmitLoginBtn}
+            disabled={isLoading}
+          >
+            {isLoading && <FaSpinner className="login-spinner" />}
             Log in to Pro Quizzz
           </button>
           <div className="login-back">

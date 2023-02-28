@@ -13,10 +13,12 @@ import { FaTachometerAlt, FaGem, FaList, FaGithub, FaRegLaughWink, FaHeart } fro
 import { DiReact } from 'react-icons/di'
 import { MdDashboard } from 'react-icons/md'
 import sidebarBg from '../../assets/bg2.jpg'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const SideBar = (props) => {
   const { image, collapsed, toggled, handleToggleSidebar } = props
+  const navigate = useNavigate()
+
   return (
     <>
       <ProSidebar
@@ -39,8 +41,15 @@ const SideBar = (props) => {
               whiteSpace: 'nowrap',
             }}
           >
-            <DiReact size={'3em'} color={'00bfff'}></DiReact>
-            Pro Quizzz
+            <DiReact
+              size={'3em'}
+              color={'00bfff'}
+              style={{ cursor: 'pointer' }}
+              onClick={() => navigate('/')}
+            ></DiReact>
+            <span style={{ cursor: 'pointer' }} onClick={() => navigate('/')}>
+              Pro Quizzz
+            </span>
           </div>
         </SidebarHeader>
 
@@ -55,7 +64,9 @@ const SideBar = (props) => {
               <MenuItem>
                 Quản lý Users <Link to="/admins/manage-users" />
               </MenuItem>
-              <MenuItem>Quản lý bài Quiz</MenuItem>
+              <MenuItem>
+                Quản lý bài Quiz <Link to="/admins/manage-quizzes" />
+              </MenuItem>
               <MenuItem>Quản lý câu hỏi</MenuItem>
             </SubMenu>
           </Menu>

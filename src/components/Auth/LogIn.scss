@@ -82,6 +82,7 @@
   }
 
   .login-content .login-btn {
+    min-width: 185px;
     background: #262627;
     color: #fff;
     padding: 15px 20px;
@@ -93,6 +94,24 @@
     transition: all 0.3s linear;
     &:hover {
       background: #000;
+    }
+    &:disabled {
+      background-color: #ddd;
+      color: #999999;
+    }
+  }
+
+  .login-content .login-spinner {
+    animation: spin 1s infinite linear;
+    margin-right: 5px;
+
+    @keyframes spin {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
     }
   }
 

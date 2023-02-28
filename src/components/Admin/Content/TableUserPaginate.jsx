@@ -18,7 +18,7 @@ const TableUserPaginate = (props) => {
   const handlePageClick = (event) => {
     fetchDataUserListWithPaginate(+event.selected + 1)
     setCurrentPage(+event.selected + 1)
-    console.log(`User requested page number ${event.selected}`)
+    // console.log(`User requested page number ${event.selected}`)
   }
 
   const handleOnClickViewBtn = (userItem) => {

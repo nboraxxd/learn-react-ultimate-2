@@ -1,6 +1,11 @@
+import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import homepageVideo from '../../assets/video-homepage.mp4'
 
-const HomePage = (props) => {
+const HomePage = () => {
+  const isAuthenticated = useSelector((state) => state.user.isAuthenticated)
+  const navigate = useNavigate()
+
   return (
     <div className="homepage-container">
       <video className="homepage-video" autoPlay muted loop>
@@ -12,17 +17,24 @@ const HomePage = (props) => {
           You don't want to make a boring form. And your audience won't answer one. Create a
           typeform instead—and make everyone happy.
         </p>
-        <button className="homepage-button">Get started - it's free</button>
-        <ul className="homepage-list">
-          <li className="homepage-benefit">
-            <p className="homepage-icon">✓</p>
-            <p className="homepage-text">No credit card required</p>
-          </li>
-          <li className="homepage-benefit">
-            <p className="homepage-icon">✓</p>
-            <p className="homepage-text">No time limit on Free plan</p>
-          </li>
-        </ul>
+
+        {isAuthenticated && <button className="homepage-button" onClick={() => navigate('/users')}>Start Quizzz</button>}
+
+        {!isAuthenticated && (
+          <>
+            <button className="homepage-button" onClick={() => navigate('/sign-up')}>Get started - it's free</button>
+            <ul className="homepage-list">
+              <li className="homepage-benefit">
+                <p className="homepage-icon">✓</p>
+                <p className="homepage-text">No credit card required</p>
+              </li>
+              <li className="homepage-benefit">
+                <p className="homepage-icon">✓</p>
+                <p className="homepage-text">No time limit on Free plan</p>
+              </li>
+            </ul>
+          </>
+        )}
       </div>
     </div>
   )
